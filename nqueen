@@ -1,0 +1,41 @@
+#N Queens Problem
+
+def is_safe(board, row, col, n): 
+    for i in range(col):
+        if board[row][i] == 1:  #Move left across row
+            return False    #dont check right coz we place queens cloumn by column, so no queens exist
+        
+    i, j = row - 1, col - 1    #Check Upper left diagonal
+    while i>=0 and j>=0:
+        if board[i][j] == 1:
+            return False
+        i -= 1; j -=  1  
+    i, j = row + 1, col - 1    #Check Upper Right diagonal 
+    while i>n and j>=0:
+        if board[i][j] ==1: 
+            return False
+        i += 1; j-= 1
+    return True
+
+def solve_nq_until(board, col, n):  #Function to place the queens 
+    if col>=n:
+        return True
+    for i in range(n):
+        if is_safe(board, i, col, n):
+            board[i][col] = 1
+            if solve_nq_until(board, col+1, n):
+                return True
+            board[i][col] = 0
+    return False        
+
+def solve_nq(n):
+    board = [[0]*n for _ in range(n)]
+    if not solve_nq_until(board, 0, n):
+        print("No Solution: ")
+        return
+    for row in board:
+        print(''.join('Q'if x else'.'for x in row ))
+
+
+#Main
+solve_nq(4)
