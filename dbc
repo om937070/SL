@@ -1,0 +1,28 @@
+#DBMS 6
+pip install mysql-connector-python
+import mysql.connector
+
+con = mysql.connector.connect(
+    host = "localhost",
+    user = "root",
+    password = "hiddeN@123",
+    database = "practical6"
+)
+
+cur = con.cursor()
+
+cur.execute("INSERT INTO student VALUES (3, 'Ravi', 90)")
+con.commit()
+print("Record inserted!")
+
+
+
+cur.execute("select * from students;")
+
+for row in cur.fetchall():
+    print (row)
+
+con.close()   
+--------------------------------------------------------------------------------------------
+MySQL side
+create a database and insert data and then run it  
