@@ -1,0 +1,70 @@
+create table Department (
+deptid int primary key,
+deptname varchar(50)
+);
+
+create table Employee(
+empid int primary key,
+empname varchar(50),
+deptid int,
+salary int,
+foreign key(deptid) references Department(deptid)
+);
+
+INSERT into department values
+(1, 'HR'),
+(2, 'IT'),
+(3, 'Management'),
+(4, 'Finance');
+
+insert into employee values
+(101, 'Advay', 2, 500000),
+(102, 'Durva', 1, 600000),
+(103, 'Anish', 3, 300000),
+(104, 'Aryan', NULL, 200000),
+(105, 'Anjali', 4, 800000);
+
+
+select empname, deptname   #inner join
+from employee
+inner join department on employee.deptid = department.deptid;
+
+select empname, deptname  #left join
+from employee
+left join department on employee.deptid = department.deptid;
+
+select empname, deptname #right join
+from employee 
+right join department on employee.deptid = department.deptid;
+
+
+select empname, deptname     #cross join 
+from employee
+cross join department;
+
+select e1.empname as employee, e2.empname as collegue   #self join
+from employee e1, employee e2
+where e1.deptid = e2.deptid and e1.empid <> e2.empid;
+
+select empname, salary    #subquery avegare salary
+from employee
+where salary >(select avg(salary)from employee);
+
+select empname  #subquery find dept
+from employee
+where deptid in(select deptid from department where deptname = 'IT');
+
+
+select empname #subquery with exists
+from employee e
+where exists(
+	select * from department d
+    where d.deptid = e.deptid and d.deptname = 'Finance'
+ );   
+ 
+ create view emp_details as #create view
+ select e.empname, e.empid, d.deptid, e.salary
+ from employee e 
+left join department d on d.deptid = e.deptid;
+
+select * from emp_details where salary > 500000;   #view query
