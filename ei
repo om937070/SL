@@ -1,0 +1,39 @@
+create database export_import_data;
+use export_import_data;
+
+
+create table Employee (
+	emp_id int primary key,
+	emp_name varchar(50),
+	salary int
+);
+
+insert into Employee values
+(1, 'Advay', 50000),
+(2, 'Manisha', 45000),
+(3, 'Om', 30000);
+
+SHOW VARIABLES LIKE 'secure_file_priv';-----------------check where MySQL allows to export file
+
+
+SELECT * FROM Employee
+INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 9.4/Uploads/employees 2.csv '
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+
+
+
+create table Employee_copy(
+emp_id int primary key,
+emp_name varchar(50),
+salary int
+);
+
+
+load data infile 'C:/ProgramData/MySQL/MySQL Server 9.4/Uploads/employee.csv'
+into table Employee_copy
+fields terminated by ','
+lines terminated by '\n'; 
+
+select * from Employee_copy;
